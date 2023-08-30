@@ -640,8 +640,6 @@ namespace RTC
 		// Buffer where this packet is allocated, can be `nullptr` if packet was
 		// parsed from externally provided buffer.
 		uint8_t* buffer{ nullptr };
-	public:
-		void* obuParserState{ 0 };
 	};
 } // namespace RTC
 

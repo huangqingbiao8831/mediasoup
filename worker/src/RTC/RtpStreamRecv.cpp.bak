@@ -272,16 +272,7 @@ namespace RTC
 		// Process the packet at codec level.
 		if (packet->GetPayloadType() == GetPayloadType())
 		{
-			//begin add for av1 codecs
-			auto mimeType = GetMimeType();
-			if (mimeType.type == RTC::RtpCodecMimeType::Type::VIDEO
-					&& mimeType.subtype == RTC::RtpCodecMimeType::Subtype::AV1X)
-			{
-				packet->obuParserState = (void*)&this->obuParserState;
-			}
-			//end of for av1 codecs...
 			RTC::Codecs::Tools::ProcessRtpPacket(packet, GetMimeType());
-			//this->ProcessPacketDependencyDescriptor(packet);
 		}
 
 		// Pass the packet to the NackGenerator.
@@ -405,14 +396,7 @@ namespace RTC
 		// Process the packet at codec level.
 		if (packet->GetPayloadType() == GetPayloadType())
 		{
-			auto mimeType = GetMimeType();
-			if (mimeType.type == RTC::RtpCodecMimeType::Type::VIDEO
-					&& mimeType.subtype == RTC::RtpCodecMimeType::Subtype::AV1X)
-			{
-				packet->obuParserState = (void*)&this->obuParserState;
-			}
 			RTC::Codecs::Tools::ProcessRtpPacket(packet, GetMimeType());
-			//this->ProcessPacketDependencyDescriptor(packet);
 		}
 
 		// Mark the packet as retransmitted.
@@ -448,18 +432,6 @@ namespace RTC
 		return false;
 	}
 
-	//add for av1 codecs
-      #if 0
-      void RtpStreamRecv::ProcessPacketDependencyDescriptor(RTC::RtpPacket* packet)
-	{
-           MS_TRACE();
-           uint8_t dependencyDescriptorLen{ 0 };
-
-            // Read Dependency Descriptor
-	   packet->ReadDependencyDescriptor(&(this->dependencyDescriptor), dependencyDescriptorLen);
-	}
-	//end of av1 codecs
-      #endif
 	RTC::RTCP::ReceiverReport* RtpStreamRecv::GetRtcpReceiverReport()
 	{
 		MS_TRACE();

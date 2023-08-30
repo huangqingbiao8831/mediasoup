@@ -8,6 +8,7 @@
 #include "RTC/Codecs/PayloadDescriptorHandler.hpp"
 #include "RTC/Codecs/VP8.hpp"
 #include "RTC/Codecs/VP9.hpp"
+#include "RTC/Codecs/AV1X.hpp" // add for av1 
 #include "RTC/RtpDictionaries.hpp"
 #include "RTC/RtpPacket.hpp"
 
@@ -28,6 +29,7 @@ namespace RTC
 						{
 							case RTC::RtpCodecMimeType::Subtype::VP8:
 							case RTC::RtpCodecMimeType::Subtype::VP9:
+							case RTC::RtpCodecMimeType::Subtype::AV1X: //add for av1 codec
 							case RTC::RtpCodecMimeType::Subtype::H264:
 							case RTC::RtpCodecMimeType::Subtype::H264_SVC:
 								return true;
@@ -64,7 +66,12 @@ namespace RTC
 
 								break;
 							}
-
+							//add begin for av1
+							case RTC::RtpCodecMimeType::Subtype::AV1X:
+							{
+							        RTC::Codecs::AV1X::ProcessRtpPacket(packet);
+																							                          break;
+																								          } //add end for av1 codec
 							case RTC::RtpCodecMimeType::Subtype::H264:
 							{
 								RTC::Codecs::H264::ProcessRtpPacket(packet);
@@ -148,6 +155,7 @@ namespace RTC
 								switch (mimeType.subtype)
 								{
 									case RTC::RtpCodecMimeType::Subtype::VP9:
+									case RTC::RtpCodecMimeType::Subtype::AV1X: //add for av1 codec
 									case RTC::RtpCodecMimeType::Subtype::H264_SVC:
 										return true;
 									default:
@@ -187,6 +195,8 @@ namespace RTC
 								return new RTC::Codecs::VP8::EncodingContext(params);
 							case RTC::RtpCodecMimeType::Subtype::VP9:
 								return new RTC::Codecs::VP9::EncodingContext(params);
+							case RTC::RtpCodecMimeType::Subtype::AV1X: //add for av1 codec
+								return new RTC::Codecs::AV1X::EncodingContext(params);
 							case RTC::RtpCodecMimeType::Subtype::H264:
 								return new RTC::Codecs::H264::EncodingContext(params);
 							case RTC::RtpCodecMimeType::Subtype::H264_SVC:
